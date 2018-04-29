@@ -24,10 +24,10 @@
         e.preventDefault();
         var heading = $(this).attr('href');
         var scrollDistance = $(heading).offset().top;
-
+        console.log(window.pageYOffset, $(heading).offset().top);
         $('html, body').animate({
             scrollTop: scrollDistance + 'px'
-        }, Math.abs(window.pageYOffset - $(heading).offset().top) / 1);
+        }, 600 + (Math.abs(window.pageYOffset - $(heading).offset().top) / 5));
 
         // Hide the menu once clicked if mobile
         if ($('header').hasClass('active')) {
@@ -69,8 +69,14 @@
         // Add dates to the timeline if exists
         $this.find('.vtimeline-content').each(function() {
             var date = $(this).data('date');
+            var location = $(this).data('location');
+
+            if (location) {
+                $(this).parent().prepend('<span class="vtimeline-location">' + location + '</span>')
+            }
+
             if (date) { // Prepend if exists
-                $(this).parent().prepend('<span class="vtimeline-date">'+date+'</span>');
+                $(this).parent().prepend('<span class="vtimeline-date">' + date + '</span>');
             }
         });
 
@@ -93,5 +99,11 @@
             $('#more-projects').fadeIn(300);
         });
     });
+
+    // Show/hide certification skills
+    $('.skills-title').click(function() {
+        $(this).siblings('.skills-details').toggle('slow');
+        $(this).find('.skills-toggle-icon').toggleClass('showing');
+    })
 
 })(jQuery);
